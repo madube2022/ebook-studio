@@ -1,0 +1,12 @@
+{% extends 'ebooks/base.html' %}
+{% block title %}Sign Up - eBook Studio{% endblock %}
+{% block content %}
+<div class="p-5" style="text-align: left; max-width: 450px; margin: 0 auto;">
+    <h2>Create Your Account</h2>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn w-100">Sign Up</button>
+    </form>
+</div>
+{% endblock %}

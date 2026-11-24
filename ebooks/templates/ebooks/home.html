@@ -1,0 +1,13 @@
+{% extends 'ebooks/base.html' %}
+
+{% block title %}Home - eBook Studio{% endblock %}
+
+{% block content %}
+<div class="p-5 mb-4 bg-white rounded-3 shadow-sm text-center">
+    <h1 class="display-5 fw-bold">Create Stunning eBooks in Minutes</h1>
+    <p class="fs-5 text-muted col-md-8 mx-auto mt-3">
+        Pick a professionally designed template, write or generate chapters with AI, and export print-ready PDFs.
+    </p>
+    <a href="{% url 'gallery' %}" class="btn btn-primary btn-lg mt-3 px-4">Browse eBook Templates</a>
+</div>
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends 'ebooks/base.html' %}
+
+{% block title %}My eBooks - eBook Studio{% endblock %}
+
+{% block content %}
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px;">
+    <h2 style="margin: 0;">My eBooks</h2>
+    <a href="{% url 'create_book' %}" class="btn" style="margin: 0;">+ New eBook</a>
+</div>
+
+<div class="row">
+    {% for book in books %}
+        <div class="card card-body">
+            <span class="badge bg-warning">{{ book.get_template_style_display }}</span>
+            <h3 class="card-title">{{ book.title }}</h3>
+            <p class="card-text">By {{ book.author }} • {{ book.chapters.count }} chapter(s)</p>
+            <a href="{% url 'edit_book' book.id %}" class="btn w-100">Edit Chapters</a>
+        </div>
+    {% empty %}
+        <div class="p-5" style="grid-column: 1 / -1;">
+            <h3>No eBooks yet</h3>
+            <p class="card-text">Start your first eBook by picking a template or creating one from scratch.</p>
+            <a href="{% url 'create_book' %}" class="btn">Create Your First eBook</a>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends 'ebooks/base.html' %}
+
+{% block title %}Edit: {{ book.title }}{% endblock %}
+
+{% block content %}
+<div class="p-5" style="text-align: left; margin-bottom: 30px;">
+    <span class="badge bg-success">Template: {{ book.get_template_style_display }}</span>
+    <h1>{{ book.title }}</h1>
+    <p class="card-text">By {{ book.author }} {% if book.subtitle %}— {{ book.subtitle }}{% endif %}</p>
+    <a href="{% url 'preview_book' book.id %}" class="btn" style="background-color: #059669;">👁 Preview Styled eBook</a>
+</div>
+
+<div class="row">
+    <!-- Left Column: Existing Chapters -->
+    <div class="card card-body">
+        <h3>Chapters ({{ book.chapters.count }})</h3>
+        <hr style="margin: 15px 0; border: 0; border-top: 1px solid #e2e8f0;">
+        {% for chapter in book.chapters.all %}
+            <div style="margin-bottom: 20px;">
+                <h4>Chapter {{ chapter.order }}: {{ chapter.title }}</h4>
+                <p class="card-text" style="margin-top: 6px;">{{ chapter.content|linebreaksbr }}</p>
+            </div>
+        {% empty %}
+            <p class="card-text">No chapters yet. Use the form to add Chapter 1!</p>
+        {% endfor %}
+    </div>
+
+    <!-- Right Column: Add a New Chapter -->
+    <div class="card card-body">
+        <h3>Add New Chapter</h3>
+        <hr style="margin: 15px 0; border: 0; border-top: 1px solid #e2e8f0;">
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" name="generate_ai" formnovalidate class="btn w-100" style="background-color: #7c3aed; margin-bottom: 10px;">
+                ✨ Generate Draft with AI
+            </button>
+            <button type="submit" class="btn w-100">Save Chapter</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

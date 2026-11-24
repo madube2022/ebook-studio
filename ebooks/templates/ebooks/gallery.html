@@ -1,0 +1,47 @@
+{% extends 'ebooks/base.html' %}
+
+{% block title %}Template Gallery - eBook Studio{% endblock %}
+
+{% block content %}
+<h2 class="fw-bold mb-4">Choose an eBook Template</h2>
+<div class="row g-4">
+    <!-- Template Card 1 -->
+    <div class="col-md-4">
+        <div class="card h-100 shadow-sm">
+            <div class="bg-primary text-white p-5 text-center fw-bold fs-4">Minimalist Business</div>
+            <div class="card-body">
+                <span class="badge bg-success mb-2">Free</span>
+                <h5 class="card-title">Clean Corporate Guide</h5>
+                <p class="card-text text-muted">Ideal for whitepapers, business playbooks, and startup guides.</p>
+                <a href="#" class="btn btn-outline-primary w-100">Use Template</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Template Card 2 -->
+    <div class="col-md-4">
+        <div class="card h-100 shadow-sm">
+            <div class="bg-dark text-white p-5 text-center fw-bold fs-4">Modern Tech & AI</div>
+            <div class="card-body">
+                <span class="badge bg-warning text-dark mb-2">Premium</span>
+                <h5 class="card-title">Dark-Accent Developer Book</h5>
+                <p class="card-text text-muted">Sleek typography built for coding tutorials, SaaS guides, and manuals.</p>
+                <a href="#" class="btn btn-outline-dark w-100">Use Template</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Template Card 3 -->
+    <div class="col-md-4">
+        <div class="card h-100 shadow-sm">
+            <div class="bg-danger text-white p-5 text-center fw-bold fs-4">Creative Cookbook</div>
+            <div class="card-body">
+                <span class="badge bg-warning text-dark mb-2">Premium</span>
+                <h5 class="card-title">Lifestyle & Recipe Layout</h5>
+                <p class="card-text text-muted">Warm editorial styling for recipes, wellness guides, and stories.</p>
+                <a href="#" class="btn btn-outline-danger w-100">Use Template</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

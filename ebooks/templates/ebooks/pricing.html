@@ -1,0 +1,156 @@
+{% extends 'ebooks/base.html' %}
+
+{% block title %}Pricing & Plans - eBook Studio{% endblock %}
+
+{% block content %}
+<style>
+    .pricing-container {
+        max-width: 900px;
+        margin: 0 auto;
+        text-align: center;
+        padding: 20px;
+    }
+    .pricing-container h1 { font-size: 2.2rem; margin-bottom: 10px; }
+    p.subtitle { color: #666; margin-bottom: 30px; }
+    .messages { list-style: none; padding: 0; margin-bottom: 20px; }
+    .messages li {
+        background: #fff3cd;
+        color: #856404;
+        padding: 12px;
+        border-radius: 6px;
+        border: 1px solid #ffeeba;
+    }
+    .plans {
+        display: flex;
+        gap: 24px;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+    .card {
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        padding: 30px;
+        width: 320px;
+        text-align: left;
+        border: 2px solid #e5e7eb;
+    }
+    .card.pro { border-color: #2563eb; }
+    .badge {
+        background: #2563eb;
+        color: #fff;
+        font-size: 0.75rem;
+        padding: 4px 10px;
+        border-radius: 20px;
+        text-transform: uppercase;
+        font-weight: bold;
+    }
+    .price {
+        font-size: 2rem;
+        font-weight: bold;
+        margin: 15px 0;
+    }
+    .price span { font-size: 0.9rem; color: #666; font-weight: normal; }
+    ul.features {
+        list-style: none;
+        padding: 0;
+        margin: 20px 0 30px;
+        line-height: 2;
+    }
+    .btn-plan {
+        display: block;
+        width: 100%;
+        text-align: center;
+        padding: 12px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: bold;
+        border: none;
+        cursor: pointer;
+        font-size: 1rem;
+    }
+    .btn-free { background: #e5e7eb; color: #374151; }
+    .btn-pro { background: #2563eb; color: #fff; }
+    .btn-pro:hover { background: #1d4ed8; }
+    .back-link { display: inline-block; margin-top: 30px; color: #2563eb; text-decoration: none; }
+</style>
+
+<div class="pricing-container">
+    <h1>Choose Your eBook Plan</h1>
+    <p class="subtitle">Unlock premium designer templates and unlimited AI writing.</p>
+
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <div class="plans">
+        <!-- Free Plan -->
+        <div class="card">
+            <h2>Free Plan</h2>
+            <div class="price">₦0 <span>/ forever</span></div>
+            <ul class="features">
+                <li>✔ Minimalist Business Template</li>
+                <li>✔ Basic Chapter Editor</li>
+                <li>✔ PDF Preview & Download</li>
+                <li>✖ Modern Tech & AI Template</li>
+                <li>✖ Creative Cookbook Template</li>
+            </ul>
+            <a href="{% url 'my_books' %}" class="btn-plan btn-free">
+                {% if not profile.is_pro %}Current Plan{% else %}Basic Access{% endif %}
+            </a>
+        </div>
+
+        <!-- Pro Plan -->
+        <div class="card pro">
+            <span class="badge">Most Popular</span>
+            <h2>Pro Plan</h2>
+            <div class="price">₦5,000 <span>/ month</span></div>
+            <ul class="features">
+                <li>✔ Minimalist Business Template</li>
+                <li>✔ <strong>Modern Tech & AI Template</strong></li>
+                <li>✔ <strong>Creative Cookbook Template</strong></li>
+                <li>✔ Unlimited AI Chapter Generation</li>
+                <li>✔ Priority PDF Downloads</li>
+            </ul>
+            {% if profile.is_pro %}
+                <a href="{% url 'my_books' %}" class="btn-plan btn-free">Active Pro Member ✔</a>
+            {% else %}
+                <button type="button" onclick="payWithPaystack()" class="btn-plan btn-pro">Upgrade to Pro</button>
+            {% endif %}
+        </div>
+    </div>
+
+    <a href="{% url 'my_books' %}" class="back-link">← Back to My Books</a>
+</div>
+
+<script>
+    const paystackScript = document.createElement("script");
+    paystackScript.src = "https://js." + "paystack.co/v1/inline.js";
+    document.head.appendChild(paystackScript);
+
+    function payWithPaystack() {
+        if (typeof PaystackPop === "undefined") {
+            alert("Paystack is still loading or blocked. Please check your internet connection and try again.");
+            return;
+        }
+        let handler = PaystackPop.setup({
+            key: "{{ paystack_public_key }}",
+            email: "{{ user_email }}",
+            amount: Number("{{ amount }}"),
+            currency: "NGN",
+            ref: "{{ reference }}",
+            callback: function(response) {
+                window.location.href = "{% url 'verify_payment' %}?reference=" + response.reference;
+            },
+            onClose: function() {
+                alert("Payment window closed.");
+            }
+        });
+        handler.openIframe();
+    }
+</script>
+{% endblock %}

@@ -1,0 +1,92 @@
+{% extends 'ebooks/base.html' %}
+
+{% block title %}Preview: {{ book.title }}{% endblock %}
+
+{% block content %}
+<style>
+    /* Shared Book Sheet Layout */
+    .ebook-sheet {
+        max-width: 800px;
+        margin: 0 auto;
+        background: white;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+        border-radius: 8px;
+        overflow: hidden;
+    }
+    .ebook-cover {
+        padding: 90px 50px;
+        text-align: center;
+        min-height: 450px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+    .ebook-body { padding: 50px; line-height: 1.8; }
+    .chapter-block { margin-bottom: 50px; page-break-before: always; }
+
+    /* 1. Minimalist Business Theme */
+    .theme-business { font-family: 'Georgia', serif; color: #1e293b; }
+    .theme-business .ebook-cover { background: #f8fafc; border-bottom: 6px solid #2563eb; }
+    .theme-business .chapter-num { color: #2563eb; font-family: sans-serif; font-size: 0.9rem; letter-spacing: 2px; text-transform: uppercase; }
+
+    /* 2. Modern Tech & AI Theme */
+    .theme-tech { font-family: 'Segoe UI', sans-serif; color: #0f172a; }
+    .theme-tech .ebook-cover { background: linear-gradient(135deg, #0f172a, #1e293b); color: #38bdf8; }
+    .theme-tech .ebook-cover p { color: #cbd5e1; }
+    .theme-tech .chapter-num { background: #0f172a; color: #38bdf8; display: inline-block; padding: 4px 12px; border-radius: 4px; font-size: 0.85rem; }
+
+    /* 3. Creative Cookbook Theme */
+    .theme-cookbook { font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, serif; color: #431407; background: #fffbeb; }
+    .theme-cookbook .ebook-cover { background: #dc2626; color: #fef2f2; }
+    .theme-cookbook .chapter-num { color: #dc2626; font-style: italic; font-size: 1.1rem; }
+</style>
+
+<!-- Action Bar -->
+<div style="max-width: 800px; margin: 0 auto 20px auto; display: flex; justify-content: space-between; align-items: center;">
+    <a href="{% url 'edit_book' book.id %}" class="nav-link" style="color: #2563eb;">← Back to Editor</a>
+    <span class="badge bg-success">Active Design: {{ book.get_template_style_display }}</span>
+</div>
+
+<!-- Styled eBook Document -->
+<div class="ebook-sheet theme-{{ book.template_style }}">
+    <!-- Cover Page -->
+    <div class="ebook-cover">
+        <h1 style="font-size: 2.8rem; margin-bottom: 15px;">{{ book.title }}</h1>
+        {% if book.subtitle %}
+            <p style="font-size: 1.3rem; opacity: 0.85; margin-bottom: 30px;">{{ book.subtitle }}</p>
+        {% endif %}
+        <p style="font-weight: bold; letter-spacing: 1px;">Written by {{ book.author }}</p>
+    </div>
+
+    <!-- Table of Contents & Chapters -->
+    <div class="ebook-body">
+        <div style="margin-bottom: 50px; padding-bottom: 30px; border-bottom: 1px solid #e2e8f0;">
+            <h2 style="margin-bottom: 15px;">Table of Contents</h2>
+            {% for chapter in book.chapters.all %}
+                <p style="margin-bottom: 8px;"><strong>Chapter {{ chapter.order }}:</strong> {{ chapter.title }}</p>
+            {% empty %}
+                <p>No chapters added yet.</p>
+            {% endfor %}
+        </div>
+
+        <div style="max-width: 800px; margin: 0 auto 20px auto; display: flex; justify-content: space-between; align-items: center;">
+            <a href="{% url 'edit_book' book.id %}" class="nav-link" style="color: #2563eb;">← Back to Editor</a>
+        <div style="display: flex; gap: 12px; align-items: center;">
+            
+            <span class="badge bg-success" style="margin: 0;">Active Design: {{ book.get_template_style_display }}</span>
+            
+            <a href="{% url 'download_pdf' book.id %}" class="btn" style="margin: 0; background-color: #dc2626;">⬇ Download PDF</a>
+        </div>
+    </div>
+
+
+        {% for chapter in book.chapters.all %}
+            <div class="chapter-block">
+                <div class="chapter-num">Chapter {{ chapter.order }}</div>
+                <h2 style="margin-top: 8px; margin-bottom: 20px;">{{ chapter.title }}</h2>
+                <div>{{ chapter.content|linebreaks }}</div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
