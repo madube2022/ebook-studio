@@ -18,10 +18,21 @@ def generate_chapter_draft(book_title, book_subtitle, chapter_title):
         f"Return only the chapter body text without repeating the title."
     )
 
-    # Use current Gemini 3 models so the fallback never hits a retired 2.5 model
-    models_to_try = ["gemini-3.8-flash", "gemini-3.8-flash-lite", "gemini-3.8-pro"]
+    # Start with your preferred model
+    models_to_try = ["gemini-3.8-flash"]
 
-    for model_name in models_to_try:
+    # Automatically discover any other text-generation Gemini models enabled on your key
+    try:
+        for m in client.models.list():
+            name = m.name.replace("models/", "")
+            if "gemini" in name and "embedding" not in name and "imagen" not in name:
+                if name not in models_to_try:
+                    models_to_try.append(name)
+    except Exception:
+        pass
+
+    last_error = ""
+    for model_name in models_to_try[:5]:  # Try up to 5 available models
         for attempt in range(3):
             try:
                 response = client.models.generate_content(
@@ -30,17 +41,16 @@ def generate_chapter_draft(book_title, book_subtitle, chapter_title):
                 )
                 return response.text
             except APIError as e:
-                # Retry if busy (503) or rate-limited (429)
+                last_error = f"{model_name}: {e}"
                 if e.code in (429, 503):
                     if attempt < 2:
-                        time.sleep(2 ** attempt)  # Wait 1s, then 2s
+                        time.sleep(2 * (attempt + 1))  # Wait 2s, then 4s
                         continue
-                    break  # Try the next model in the list
-                # If a fallback model name isn't enabled on your key (404), skip to the next one
-                if e.code == 404:
-                    break
+                    break  # Move to the next valid model
+                if e.code in (400, 404):
+                    break  # Skip unsupported/non-text models
                 return f"AI Generation Error: {e}"
             except Exception as e:
                 return f"AI Generation Error: {e}"
 
-    return "AI Generation Error: The AI models are experiencing heavy traffic right now. Please wait 30 seconds and click Generate again."
+    return f"AI Generation Error: Servers are busy ({last_error}). Please try again shortly."
