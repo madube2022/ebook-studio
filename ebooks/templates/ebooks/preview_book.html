@@ -1,4 +1,5 @@
 {% extends 'ebooks/base.html' %}
+{% load static %}
 
 {% block title %}Preview: {{ book.title }}{% endblock %}
 
@@ -20,6 +21,12 @@
         display: flex;
         flex-direction: column;
         justify-content: center;
+        align-items: center;
+    }
+    .cover-artwork-img {
+        width: 150px;
+        height: auto;
+        margin-bottom: 24px;
     }
     .ebook-body { padding: 50px; line-height: 1.8; }
     .chapter-block { margin-bottom: 50px; page-break-before: always; }
@@ -39,18 +46,48 @@
     .theme-cookbook { font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, serif; color: #431407; background: #fffbeb; }
     .theme-cookbook .ebook-cover { background: #dc2626; color: #fef2f2; }
     .theme-cookbook .chapter-num { color: #dc2626; font-style: italic; font-size: 1.1rem; }
+
+    /* 4. Dark Executive Theme */
+    .theme-dark_executive { font-family: 'Georgia', serif; color: #1f2937; }
+    .theme-dark_executive .ebook-cover { background: #111827; color: #f9fafb; border: 10px solid #d97706; }
+    .theme-dark_executive .chapter-num { color: #d97706; font-family: sans-serif; font-size: 0.9rem; letter-spacing: 2px; text-transform: uppercase; font-weight: bold; }
+
+    /* 5. Editorial Framed Theme */
+    .theme-editorial_frame { font-family: 'Georgia', serif; color: #1f2937; background: #fdfcfb; }
+    .theme-editorial_frame .ebook-cover { background: #faf8f5; color: #1f2937; border: 4px solid #1f2937; margin: 20px; }
+    .theme-editorial_frame .chapter-num { color: #4b5563; font-family: sans-serif; font-size: 0.9rem; letter-spacing: 2px; text-transform: uppercase; }
+
+    /* 6. Botanical & Clean Theme */
+    .theme-botanical_clean { font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, serif; color: #1b4332; background: #fcfdfc; }
+    .theme-botanical_clean .ebook-cover { background: #f2f7f4; color: #1b4332; border-top: 10px solid #2d6a4f; border-bottom: 10px solid #2d6a4f; }
+    .theme-botanical_clean .chapter-num { color: #2d6a4f; font-family: sans-serif; font-size: 0.9rem; letter-spacing: 2px; text-transform: uppercase; font-weight: bold; }
 </style>
 
 <!-- Action Bar -->
 <div style="max-width: 800px; margin: 0 auto 20px auto; display: flex; justify-content: space-between; align-items: center;">
     <a href="{% url 'edit_book' book.id %}" class="nav-link" style="color: #2563eb;">← Back to Editor</a>
-    <span class="badge bg-success">Active Design: {{ book.get_template_style_display }}</span>
+    <div style="display: flex; gap: 12px; align-items: center;">
+        <span class="badge bg-success" style="margin: 0;">Active Design: {{ book.get_template_style_display }}</span>
+        <a href="{% url 'download_pdf' book.id %}" class="btn" style="margin: 0; background-color: #dc2626; color: white;">⬇ Download PDF</a>
+    </div>
 </div>
 
 <!-- Styled eBook Document -->
 <div class="ebook-sheet theme-{{ book.template_style }}">
     <!-- Cover Page -->
     <div class="ebook-cover">
+        {% if book.cover_artwork and book.cover_artwork != 'none' %}
+            {% if book.cover_artwork == 'minimal_lines' %}
+                <img class="cover-artwork-img" src="{% static 'ebooks/artwork/minimal_lines.png' %}" alt="Minimalist Lines">
+            {% elif book.cover_artwork == 'tech_circuit' %}
+                <img class="cover-artwork-img" src="{% static 'ebooks/artwork/tech_circuit.png' %}" alt="Tech Geometry">
+            {% elif book.cover_artwork == 'botanical_leaf' %}
+                <img class="cover-artwork-img" src="{% static 'ebooks/artwork/botanical_leaf.png' %}" alt="Botanical Illustration">
+            {% elif book.cover_artwork == 'culinary_badge' %}
+                <img class="cover-artwork-img" src="{% static 'ebooks/artwork/culinary_badge.png' %}" alt="Culinary Crest">
+            {% endif %}
+        {% endif %}
+
         <h1 style="font-size: 2.8rem; margin-bottom: 15px;">{{ book.title }}</h1>
         {% if book.subtitle %}
             <p style="font-size: 1.3rem; opacity: 0.85; margin-bottom: 30px;">{{ book.subtitle }}</p>
@@ -68,17 +105,6 @@
                 <p>No chapters added yet.</p>
             {% endfor %}
         </div>
-
-        <div style="max-width: 800px; margin: 0 auto 20px auto; display: flex; justify-content: space-between; align-items: center;">
-            <a href="{% url 'edit_book' book.id %}" class="nav-link" style="color: #2563eb;">← Back to Editor</a>
-        <div style="display: flex; gap: 12px; align-items: center;">
-            
-            <span class="badge bg-success" style="margin: 0;">Active Design: {{ book.get_template_style_display }}</span>
-            
-            <a href="{% url 'download_pdf' book.id %}" class="btn" style="margin: 0; background-color: #dc2626;">⬇ Download PDF</a>
-        </div>
-    </div>
-
 
         {% for chapter in book.chapters.all %}
             <div class="chapter-block">

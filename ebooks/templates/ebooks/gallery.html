@@ -1,45 +1,103 @@
 {% extends 'ebooks/base.html' %}
+{% load static %}
 
 {% block title %}Template Gallery - eBook Studio{% endblock %}
 
 {% block content %}
 <h2 class="fw-bold mb-4">Choose an eBook Template</h2>
 <div class="row g-4">
-    <!-- Template Card 1 -->
+    <!-- Template Card 1: Minimalist Business -->
     <div class="col-md-4">
         <div class="card h-100 shadow-sm">
-            <div class="bg-primary text-white p-5 text-center fw-bold fs-4">Minimalist Business</div>
+            <div class="bg-primary text-white p-4 text-center fw-bold fs-4">
+                <img src="{% static 'ebooks/artwork/minimal_lines.png' %}" alt="Minimalist Lines" style="height: 60px; margin-bottom: 10px;" class="d-block mx-auto">
+                Minimalist Business
+            </div>
             <div class="card-body">
                 <span class="badge bg-success mb-2">Free</span>
                 <h5 class="card-title">Clean Corporate Guide</h5>
                 <p class="card-text text-muted">Ideal for whitepapers, business playbooks, and startup guides.</p>
-                <a href="#" class="btn btn-outline-primary w-100">Use Template</a>
+                <a href="{% url 'create_book' %}" class="btn btn-outline-primary w-100">Use Template</a>
             </div>
         </div>
     </div>
 
-    <!-- Template Card 2 -->
+    <!-- Template Card 2: Modern Tech & AI -->
     <div class="col-md-4">
         <div class="card h-100 shadow-sm">
-            <div class="bg-dark text-white p-5 text-center fw-bold fs-4">Modern Tech & AI</div>
+            <div class="bg-dark text-white p-4 text-center fw-bold fs-4">
+                <img src="{% static 'ebooks/artwork/tech_circuit.png' %}" alt="Tech Geometry" style="height: 60px; margin-bottom: 10px;" class="d-block mx-auto">
+                Modern Tech &amp; AI
+            </div>
             <div class="card-body">
                 <span class="badge bg-warning text-dark mb-2">Premium</span>
                 <h5 class="card-title">Dark-Accent Developer Book</h5>
                 <p class="card-text text-muted">Sleek typography built for coding tutorials, SaaS guides, and manuals.</p>
-                <a href="#" class="btn btn-outline-dark w-100">Use Template</a>
+                <a href="{% url 'create_book' %}" class="btn btn-outline-dark w-100">Use Template</a>
             </div>
         </div>
     </div>
 
-    <!-- Template Card 3 -->
+    <!-- Template Card 3: Creative Cookbook -->
     <div class="col-md-4">
         <div class="card h-100 shadow-sm">
-            <div class="bg-danger text-white p-5 text-center fw-bold fs-4">Creative Cookbook</div>
+            <div class="bg-danger text-white p-4 text-center fw-bold fs-4">
+                <img src="{% static 'ebooks/artwork/culinary_badge.png' %}" alt="Culinary Crest" style="height: 60px; margin-bottom: 10px;" class="d-block mx-auto">
+                Creative Cookbook
+            </div>
             <div class="card-body">
                 <span class="badge bg-warning text-dark mb-2">Premium</span>
-                <h5 class="card-title">Lifestyle & Recipe Layout</h5>
+                <h5 class="card-title">Lifestyle &amp; Recipe Layout</h5>
                 <p class="card-text text-muted">Warm editorial styling for recipes, wellness guides, and stories.</p>
-                <a href="#" class="btn btn-outline-danger w-100">Use Template</a>
+                <a href="{% url 'create_book' %}" class="btn btn-outline-danger w-100">Use Template</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Template Card 4: Dark Executive -->
+    <div class="col-md-4">
+        <div class="card h-100 shadow-sm">
+            <div class="p-4 text-center fw-bold fs-4" style="background-color: #111827; color: #F9FAFB; border-bottom: 5px solid #D97706;">
+                <img src="{% static 'ebooks/artwork/minimal_lines.png' %}" alt="Gold Lines" style="height: 60px; margin-bottom: 10px;" class="d-block mx-auto">
+                Dark Executive
+            </div>
+            <div class="card-body">
+                <span class="badge bg-warning text-dark mb-2">Premium</span>
+                <h5 class="card-title">Luxury Authority Edition</h5>
+                <p class="card-text text-muted">Deep charcoal cover with gold framing for leadership and finance books.</p>
+                <a href="{% url 'create_book' %}" class="btn btn-outline-dark w-100">Use Template</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Template Card 5: Editorial Framed Artwork -->
+    <div class="col-md-4">
+        <div class="card h-100 shadow-sm">
+            <div class="p-4 text-center fw-bold fs-4" style="background-color: #FAF8F5; color: #1F2937; border: 3px solid #1F2937;">
+                <img src="{% static 'ebooks/artwork/culinary_badge.png' %}" alt="Editorial Frame" style="height: 60px; margin-bottom: 10px;" class="d-block mx-auto">
+                Editorial Framed
+            </div>
+            <div class="card-body">
+                <span class="badge bg-success mb-2">Free</span>
+                <h5 class="card-title">Classic Print Aesthetic</h5>
+                <p class="card-text text-muted">Warm ivory paper look with bold borders for essays, memoirs, and non-fiction.</p>
+                <a href="{% url 'create_book' %}" class="btn btn-outline-secondary w-100">Use Template</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Template Card 6: Botanical & Clean -->
+    <div class="col-md-4">
+        <div class="card h-100 shadow-sm">
+            <div class="p-4 text-center fw-bold fs-4" style="background-color: #F2F7F4; color: #1B4332; border-bottom: 5px solid #2D6A4F;">
+                <img src="{% static 'ebooks/artwork/botanical_leaf.png' %}" alt="Botanical Leaf" style="height: 60px; margin-bottom: 10px;" class="d-block mx-auto">
+                Botanical &amp; Clean
+            </div>
+            <div class="card-body">
+                <span class="badge bg-warning text-dark mb-2">Premium</span>
+                <h5 class="card-title">Organic Wellness &amp; Nature</h5>
+                <p class="card-text text-muted">Soft sage tones and leaf artwork designed for health, mindfulness, and lifestyle guides.</p>
+                <a href="{% url 'create_book' %}" class="btn btn-outline-success w-100">Use Template</a>
             </div>
         </div>
     </div>
