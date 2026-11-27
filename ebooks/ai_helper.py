@@ -18,8 +18,8 @@ def generate_chapter_draft(book_title, book_subtitle, chapter_title):
         f"Return only the chapter body text without repeating the title."
     )
 
-    # Try your primary model first, then fall back to stable models if busy
-    models_to_try = ["gemini-3.8-flash", "gemini-2.5-flash", "gemini-2.5-flash-lite"]
+    # Use current Gemini 3 models so the fallback never hits a retired 2.5 model
+    models_to_try = ["gemini-3.8-flash", "gemini-3.8-flash-lite", "gemini-3.8-pro"]
 
     for model_name in models_to_try:
         for attempt in range(3):
@@ -30,15 +30,17 @@ def generate_chapter_draft(book_title, book_subtitle, chapter_title):
                 )
                 return response.text
             except APIError as e:
-                # 503 = High demand / overloaded; 429 = Rate limit
+                # Retry if busy (503) or rate-limited (429)
                 if e.code in (429, 503):
                     if attempt < 2:
-                        time.sleep(2 ** attempt)  # Wait 1s, then 2s before retrying
+                        time.sleep(2 ** attempt)  # Wait 1s, then 2s
                         continue
-                    # Move on to the next model in the list if all 3 attempts fail
+                    break  # Try the next model in the list
+                # If a fallback model name isn't enabled on your key (404), skip to the next one
+                if e.code == 404:
                     break
                 return f"AI Generation Error: {e}"
             except Exception as e:
                 return f"AI Generation Error: {e}"
 
-    return "AI Generation Error: All AI models are currently busy due to high demand. Please try again in a minute."
+    return "AI Generation Error: The AI models are experiencing heavy traffic right now. Please wait 30 seconds and click Generate again."
