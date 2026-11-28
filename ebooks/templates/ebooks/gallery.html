@@ -4,100 +4,243 @@
 {% block title %}Template Gallery - eBook Studio{% endblock %}
 
 {% block content %}
-<h2 class="fw-bold mb-4">Choose an eBook Template</h2>
-<div class="row g-4">
-    <!-- Template Card 1: Minimalist Business -->
-    <div class="col-md-4">
-        <div class="card h-100 shadow-sm">
-            <div class="bg-primary text-white p-4 text-center fw-bold fs-4">
-                <img src="{% static 'ebooks/artwork/minimal_lines.png' %}" alt="Minimalist Lines" style="height: 60px; margin-bottom: 10px;" class="d-block mx-auto">
-                Minimalist Business
+<style>
+    .gallery-container {
+        max-width: 1120px;
+        margin: 0 auto;
+        padding: 24px 16px;
+    }
+    .gallery-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+        gap: 28px;
+    }
+    .template-card {
+        background: #ffffff;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 6px 20px rgba(15, 23, 42, 0.08);
+        display: flex;
+        flex-direction: column;
+        border: 1px solid #e2e8f0;
+    }
+    /* Realistic 3D Book Cover Mockup Container */
+    .mockup-stage {
+        background: #f1f5f9;
+        padding: 28px 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-bottom: 1px solid #e2e8f0;
+    }
+    .book-mockup {
+        width: 170px;
+        height: 235px;
+        border-radius: 3px 8px 8px 3px;
+        padding: 22px 16px;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        text-align: center;
+        position: relative;
+        /* Realistic book spine crease & drop shadow */
+        box-shadow: inset 10px 0 16px rgba(0, 0, 0, 0.22), 0 12px 24px rgba(0, 0, 0, 0.18);
+    }
+    .book-mockup img {
+        width: 68px;
+        height: auto;
+        margin: 0 auto;
+        display: block;
+    }
+    .book-mockup-title {
+        font-size: 0.95rem;
+        font-weight: 800;
+        line-height: 1.25;
+        letter-spacing: 0.3px;
+    }
+    .book-mockup-author {
+        font-size: 0.65rem;
+        text-transform: uppercase;
+        letter-spacing: 1.2px;
+        opacity: 0.85;
+    }
+
+    /* Individual Cover Themes */
+    .cover-business {
+        background: linear-gradient(145deg, #1e3a8a, #2563eb) !important;
+        color: #ffffff !important;
+        border-top: 6px solid #93c5fd;
+    }
+    .cover-tech {
+        background: linear-gradient(145deg, #090d16, #0f172a) !important;
+        color: #38bdf8 !important;
+        border-left: 5px solid #0284c7;
+    }
+    .cover-cookbook {
+        background: linear-gradient(145deg, #991b1b, #dc2626) !important;
+        color: #fffbeb !important;
+        border: 3px solid #fcd34d;
+    }
+    .cover-executive {
+        background: linear-gradient(145deg, #0b0f19, #111827) !important;
+        color: #f9fafb !important;
+        border: 3px solid #d97706;
+    }
+    .cover-editorial {
+        background: #faf8f5 !important;
+        color: #1f2937 !important;
+        border: 3px solid #1f2937;
+    }
+    .cover-botanical {
+        background: linear-gradient(145deg, #e6f2ec, #f2f7f4) !important;
+        color: #1b4332 !important;
+        border-top: 8px solid #2d6a4f;
+        border-bottom: 8px solid #2d6a4f;
+    }
+
+    .card-details {
+        padding: 22px;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+    .badge-free {
+        background: #dcfce7;
+        color: #166534;
+        padding: 4px 10px;
+        border-radius: 999px;
+        font-size: 0.75rem;
+        font-weight: 700;
+        display: inline-block;
+    }
+    .badge-premium {
+        background: #fef3c7;
+        color: #92400e;
+        padding: 4px 10px;
+        border-radius: 999px;
+        font-size: 0.75rem;
+        font-weight: 700;
+        display: inline-block;
+    }
+</style>
+
+<div class="gallery-container">
+    <h2 style="font-weight: 800; margin-bottom: 24px;">Choose an eBook Template</h2>
+
+    <div class="gallery-grid">
+        <!-- 1. Minimalist Business -->
+        <div class="template-card">
+            <div class="mockup-stage">
+                <div class="book-mockup cover-business">
+                    <img src="{% static 'ebooks/artwork/minimal_lines.png' %}" alt="Minimalist Lines">
+                    <div class="book-mockup-title">MINIMALIST BUSINESS</div>
+                    <div class="book-mockup-author">Corporate Edition</div>
+                </div>
             </div>
-            <div class="card-body">
-                <span class="badge bg-success mb-2">Free</span>
-                <h5 class="card-title">Clean Corporate Guide</h5>
-                <p class="card-text text-muted">Ideal for whitepapers, business playbooks, and startup guides.</p>
-                <a href="{% url 'create_book' %}" class="btn btn-outline-primary w-100">Use Template</a>
+            <div class="card-details">
+                <div>
+                    <span class="badge-free">Free</span>
+                    <h4 style="margin: 12px 0 8px 0;">Clean Corporate Guide</h4>
+                    <p style="color: #64748b; font-size: 0.9rem; margin-bottom: 20px;">Ideal for whitepapers, business playbooks, and startup guides.</p>
+                </div>
+                <a href="{% url 'create_book' %}" class="btn" style="text-align: center; display: block;">Use Template</a>
             </div>
         </div>
-    </div>
 
-    <!-- Template Card 2: Modern Tech & AI -->
-    <div class="col-md-4">
-        <div class="card h-100 shadow-sm">
-            <div class="bg-dark text-white p-4 text-center fw-bold fs-4">
-                <img src="{% static 'ebooks/artwork/tech_circuit.png' %}" alt="Tech Geometry" style="height: 60px; margin-bottom: 10px;" class="d-block mx-auto">
-                Modern Tech &amp; AI
+        <!-- 2. Modern Tech & AI -->
+        <div class="template-card">
+            <div class="mockup-stage">
+                <div class="book-mockup cover-tech">
+                    <img src="{% static 'ebooks/artwork/tech_circuit.png' %}" alt="Tech Geometry">
+                    <div class="book-mockup-title">MODERN TECH &amp; AI</div>
+                    <div class="book-mockup-author">Developer Series</div>
+                </div>
             </div>
-            <div class="card-body">
-                <span class="badge bg-warning text-dark mb-2">Premium</span>
-                <h5 class="card-title">Dark-Accent Developer Book</h5>
-                <p class="card-text text-muted">Sleek typography built for coding tutorials, SaaS guides, and manuals.</p>
-                <a href="{% url 'create_book' %}" class="btn btn-outline-dark w-100">Use Template</a>
+            <div class="card-details">
+                <div>
+                    <span class="badge-premium">Premium</span>
+                    <h4 style="margin: 12px 0 8px 0;">Dark-Accent Developer Book</h4>
+                    <p style="color: #64748b; font-size: 0.9rem; margin-bottom: 20px;">Sleek typography built for coding tutorials, SaaS guides, and manuals.</p>
+                </div>
+                <a href="{% url 'create_book' %}" class="btn" style="text-align: center; display: block;">Use Template</a>
             </div>
         </div>
-    </div>
 
-    <!-- Template Card 3: Creative Cookbook -->
-    <div class="col-md-4">
-        <div class="card h-100 shadow-sm">
-            <div class="bg-danger text-white p-4 text-center fw-bold fs-4">
-                <img src="{% static 'ebooks/artwork/culinary_badge.png' %}" alt="Culinary Crest" style="height: 60px; margin-bottom: 10px;" class="d-block mx-auto">
-                Creative Cookbook
+        <!-- 3. Creative Cookbook -->
+        <div class="template-card">
+            <div class="mockup-stage">
+                <div class="book-mockup cover-cookbook">
+                    <img src="{% static 'ebooks/artwork/culinary_badge.png' %}" alt="Culinary Crest">
+                    <div class="book-mockup-title">CREATIVE COOKBOOK</div>
+                    <div class="book-mockup-author">Artisan Kitchen</div>
+                </div>
             </div>
-            <div class="card-body">
-                <span class="badge bg-warning text-dark mb-2">Premium</span>
-                <h5 class="card-title">Lifestyle &amp; Recipe Layout</h5>
-                <p class="card-text text-muted">Warm editorial styling for recipes, wellness guides, and stories.</p>
-                <a href="{% url 'create_book' %}" class="btn btn-outline-danger w-100">Use Template</a>
+            <div class="card-details">
+                <div>
+                    <span class="badge-premium">Premium</span>
+                    <h4 style="margin: 12px 0 8px 0;">Lifestyle &amp; Recipe Layout</h4>
+                    <p style="color: #64748b; font-size: 0.9rem; margin-bottom: 20px;">Warm editorial styling for recipes, wellness guides, and stories.</p>
+                </div>
+                <a href="{% url 'create_book' %}" class="btn" style="text-align: center; display: block;">Use Template</a>
             </div>
         </div>
-    </div>
 
-    <!-- Template Card 4: Dark Executive -->
-    <div class="col-md-4">
-        <div class="card h-100 shadow-sm">
-            <div class="p-4 text-center fw-bold fs-4" style="background-color: #111827; color: #F9FAFB; border-bottom: 5px solid #D97706;">
-                <img src="{% static 'ebooks/artwork/minimal_lines.png' %}" alt="Gold Lines" style="height: 60px; margin-bottom: 10px;" class="d-block mx-auto">
-                Dark Executive
+        <!-- 4. Dark Executive -->
+        <div class="template-card">
+            <div class="mockup-stage">
+                <div class="book-mockup cover-executive">
+                    <img src="{% static 'ebooks/artwork/minimal_lines.png' %}" alt="Gold Lines">
+                    <div class="book-mockup-title">DARK EXECUTIVE</div>
+                    <div class="book-mockup-author">Leadership Press</div>
+                </div>
             </div>
-            <div class="card-body">
-                <span class="badge bg-warning text-dark mb-2">Premium</span>
-                <h5 class="card-title">Luxury Authority Edition</h5>
-                <p class="card-text text-muted">Deep charcoal cover with gold framing for leadership and finance books.</p>
-                <a href="{% url 'create_book' %}" class="btn btn-outline-dark w-100">Use Template</a>
+            <div class="card-details">
+                <div>
+                    <span class="badge-premium">Premium</span>
+                    <h4 style="margin: 12px 0 8px 0;">Luxury Authority Edition</h4>
+                    <p style="color: #64748b; font-size: 0.9rem; margin-bottom: 20px;">Deep charcoal cover with gold framing for leadership and finance books.</p>
+                </div>
+                <a href="{% url 'create_book' %}" class="btn" style="text-align: center; display: block;">Use Template</a>
             </div>
         </div>
-    </div>
 
-    <!-- Template Card 5: Editorial Framed Artwork -->
-    <div class="col-md-4">
-        <div class="card h-100 shadow-sm">
-            <div class="p-4 text-center fw-bold fs-4" style="background-color: #FAF8F5; color: #1F2937; border: 3px solid #1F2937;">
-                <img src="{% static 'ebooks/artwork/culinary_badge.png' %}" alt="Editorial Frame" style="height: 60px; margin-bottom: 10px;" class="d-block mx-auto">
-                Editorial Framed
+        <!-- 5. Editorial Framed -->
+        <div class="template-card">
+            <div class="mockup-stage">
+                <div class="book-mockup cover-editorial">
+                    <img src="{% static 'ebooks/artwork/culinary_badge.png' %}" alt="Editorial Frame">
+                    <div class="book-mockup-title">EDITORIAL FRAMED</div>
+                    <div class="book-mockup-author">Classic Print</div>
+                </div>
             </div>
-            <div class="card-body">
-                <span class="badge bg-success mb-2">Free</span>
-                <h5 class="card-title">Classic Print Aesthetic</h5>
-                <p class="card-text text-muted">Warm ivory paper look with bold borders for essays, memoirs, and non-fiction.</p>
-                <a href="{% url 'create_book' %}" class="btn btn-outline-secondary w-100">Use Template</a>
+            <div class="card-details">
+                <div>
+                    <span class="badge-free">Free</span>
+                    <h4 style="margin: 12px 0 8px 0;">Classic Print Aesthetic</h4>
+                    <p style="color: #64748b; font-size: 0.9rem; margin-bottom: 20px;">Warm ivory paper look with bold borders for essays, memoirs, and non-fiction.</p>
+                </div>
+                <a href="{% url 'create_book' %}" class="btn" style="text-align: center; display: block;">Use Template</a>
             </div>
         </div>
-    </div>
 
-    <!-- Template Card 6: Botanical & Clean -->
-    <div class="col-md-4">
-        <div class="card h-100 shadow-sm">
-            <div class="p-4 text-center fw-bold fs-4" style="background-color: #F2F7F4; color: #1B4332; border-bottom: 5px solid #2D6A4F;">
-                <img src="{% static 'ebooks/artwork/botanical_leaf.png' %}" alt="Botanical Leaf" style="height: 60px; margin-bottom: 10px;" class="d-block mx-auto">
-                Botanical &amp; Clean
+        <!-- 6. Botanical & Clean -->
+        <div class="template-card">
+            <div class="mockup-stage">
+                <div class="book-mockup cover-botanical">
+                    <img src="{% static 'ebooks/artwork/botanical_leaf.png' %}" alt="Botanical Leaf">
+                    <div class="book-mockup-title">BOTANICAL &amp; CLEAN</div>
+                    <div class="book-mockup-author">Wellness Studio</div>
+                </div>
             </div>
-            <div class="card-body">
-                <span class="badge bg-warning text-dark mb-2">Premium</span>
-                <h5 class="card-title">Organic Wellness &amp; Nature</h5>
-                <p class="card-text text-muted">Soft sage tones and leaf artwork designed for health, mindfulness, and lifestyle guides.</p>
-                <a href="{% url 'create_book' %}" class="btn btn-outline-success w-100">Use Template</a>
+            <div class="card-details">
+                <div>
+                    <span class="badge-premium">Premium</span>
+                    <h4 style="margin: 12px 0 8px 0;">Organic Wellness &amp; Nature</h4>
+                    <p style="color: #64748b; font-size: 0.9rem; margin-bottom: 20px;">Soft sage tones and leaf artwork designed for health, mindfulness, and lifestyle guides.</p>
+                </div>
+                <a href="{% url 'create_book' %}" class="btn" style="text-align: center; display: block;">Use Template</a>
             </div>
         </div>
     </div>
